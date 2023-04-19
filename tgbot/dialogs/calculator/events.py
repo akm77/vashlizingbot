@@ -13,6 +13,11 @@ async def on_lease_period_changed(event: ChatEvent, widget: ManagedWidget[Select
     ctx.dialog_data.update(lease_period=item_id)
 
 
+async def on_market_changed(event: ChatEvent, widget: ManagedWidget[Select], manager: DialogManager, item_id):
+    ctx = manager.current_context()
+    ctx.dialog_data.update(market=item_id)
+
+
 async def on_car_price_changed(event: ChatEvent, widget: ManagedCounterAdapter, manager: DialogManager):
     ctx = manager.current_context()
     car_price = widget.get_value()

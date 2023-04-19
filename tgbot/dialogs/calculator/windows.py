@@ -8,8 +8,9 @@ from . import states, getters, keyboards
 CALC_FORM = """\
 Расчет для: {started_by}\n
 <pre>------------------------------</pre>\n
+Откуда авто - <b>{market_name}</b>
 Стоимость авто - <b>{car_price}</b> AED
-Срок лизинга - <b>{lease_period}</b> мес
+Срок лизинга - <b>{lease_period_name}</b>
 """
 
 

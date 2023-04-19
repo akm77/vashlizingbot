@@ -8,6 +8,20 @@ from . import constants, events, states, onclick, whenable
 
 def enter_price():
     return Group(
+        Row(
+            Radio(
+                Format("✅ {item.name}"),
+                Format("  {item.name}"),
+                id=constants.CalculatorForm.SELECT_MARKET,
+                item_id_getter=operator.attrgetter("code"),
+                on_state_changed=events.on_market_changed,
+                items="markets",
+
+            )
+        ),
+        SwitchTo(Const("✍️ Цена"),
+                 id=constants.CalculatorForm.ENTER_PRICE,
+                 state=states.CalculatorStates.enter_price),
         Counter(
             id=constants.CalculatorForm.PRICE_COUNTER,
             min_value=100_000,
@@ -17,18 +31,17 @@ def enter_price():
             cycle=True,
             on_value_changed=events.on_car_price_changed
         ),
-        SwitchTo(Const("✍️ Цена"),
-                 id=constants.CalculatorForm.ENTER_PRICE,
-                 state=states.CalculatorStates.enter_price),
         Row(
             Radio(
-                Format("✅ {item[0]}"),
-                Format("  {item[0]}"),
+                Format("✅ {item.name}"),
+                Format("  {item.name}"),
                 id=constants.CalculatorForm.SELECT_LEASE_PERIOD,
-                item_id_getter=operator.itemgetter(1),
+                item_id_getter=operator.attrgetter("code"),
                 on_state_changed=events.on_lease_period_changed,
                 items="lease_periods",
 
             )
         ),
-        Cancel(Const("<<")))
+        Cancel(Const("<<"))
+    )
+
