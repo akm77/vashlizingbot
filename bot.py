@@ -38,6 +38,14 @@ async def main():
     logger.info("Starting bot")
 
     config = settings
+    defaults = {"min_price": config.min_price,
+                "max_price": config.max_price,
+                "price_step": config.price_step,
+                "down_fee": config.down_fee,
+                "local_market_interest_rate_12": config.local_market_interest_rate_12,
+                "local_market_interest_rate_24": config.local_market_interest_rate_24,
+                "foreign_market_interest_rate_12": config.foreign_market_interest_rate_12,
+                "foreign_market_interest_rate_24": config.foreign_market_interest_rate_24}
     if config.use_redis:
         storage = RedisStorage.from_url(config.redis_dsn, key_builder=DefaultKeyBuilder(with_bot_id=True,
                                                                                         with_destiny=True))
@@ -49,7 +57,7 @@ async def main():
     bot = Bot(token=config.bot_token.get_secret_value(), parse_mode='HTML')
     dp = Dispatcher(storage=storage)
     setup_jinja(bot=bot, filters={"formatvalue": formatvalue}, enable_async=True)
-    setup_dialogs(dp)
+    setup_dialogs(dp, **defaults)
 
     for router in [
         admin_router,

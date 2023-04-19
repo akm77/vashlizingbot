@@ -6,7 +6,7 @@ from aiogram_dialog.widgets.text import Format, Const
 from . import constants, events, states, onclick, whenable
 
 
-def enter_price():
+def enter_price(**defaults):
     return Group(
         Row(
             Radio(
@@ -24,10 +24,10 @@ def enter_price():
                  state=states.CalculatorStates.enter_price),
         Counter(
             id=constants.CalculatorForm.PRICE_COUNTER,
-            min_value=100_000,
-            max_value=999_999,
-            increment=20_000,
-            default=400_000,
+            min_value=defaults.get("min_price"),
+            max_value=defaults.get("max_price"),
+            increment=defaults.get("price_step"),
+            default=round((defaults.get("min_price") + defaults.get("max_price")) / 2),
             cycle=True,
             on_value_changed=events.on_car_price_changed
         ),

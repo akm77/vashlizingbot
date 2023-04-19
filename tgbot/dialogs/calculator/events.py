@@ -5,6 +5,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog.widgets.kbd import Select, ManagedCounterAdapter
 
 from . import states, constants
+from ...config import Settings
 from ...utils.decimals import check_digit_value
 
 
@@ -27,11 +28,12 @@ async def on_car_price_changed(event: ChatEvent, widget: ManagedCounterAdapter, 
 async def on_enter_price(message: Message, message_input: MessageInput,
                          manager: DialogManager):
     ctx = manager.current_context()
+    config: Settings = manager.middleware_data.get("config")
     try:
-        car_price = check_digit_value(message.text, type_factory=int)
+        car_price = check_digit_value(message.text, type_factory=int,
+                                      min_value=config.min_price, max_value=config.max_price)
         ctx.dialog_data.update(car_price=car_price)
     except ValueError:
-        message_text = f"Ошибка ввода {message.text}, необходимо целое число\n"
-        await message.answer(message_text)
+        await message.answer(f"Ошибка ввода {message.text}, необходимо целое число в диапазоне  \n")
         return
     await manager.switch_to(states.CalculatorStates.enter_data)

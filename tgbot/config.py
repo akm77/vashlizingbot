@@ -18,6 +18,14 @@ class Settings(BaseSettings):
     db_name: str
     db_echo: bool
 
+    min_price: int
+    max_price: int
+    price_step: int
+    down_fee: int
+    local_market_interest_rate_12: int
+    local_market_interest_rate_24: int
+    foreign_market_interest_rate_12: int
+    foreign_market_interest_rate_24: int
 
     class Config:
         @classmethod
