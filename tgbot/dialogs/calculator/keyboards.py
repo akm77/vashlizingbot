@@ -1,5 +1,6 @@
 import operator
 
+from aiogram import F
 from aiogram_dialog.widgets.kbd import Row, Radio, Group, Button, SwitchTo, Cancel, Counter
 from aiogram_dialog.widgets.text import Format, Const
 
@@ -31,6 +32,16 @@ def enter_price(**defaults):
             cycle=True,
             on_value_changed=events.on_car_price_changed
         ),
+        Counter(
+            id=constants.CalculatorForm.INTEREST_COUNTER,
+            min_value=1,
+            max_value=100,
+            increment=1,
+            default=20,
+            cycle=True,
+            on_value_changed=events.on_interest_changed,
+            when=whenable.is_admin
+        ),
         Row(
             Radio(
                 Format("✅ {item.name}"),
@@ -42,6 +53,7 @@ def enter_price(**defaults):
 
             )
         ),
-        Cancel(Const("<<"))
+        Cancel(Const("<<"),
+               on_click=onclick.on_click_exit)
     )
 

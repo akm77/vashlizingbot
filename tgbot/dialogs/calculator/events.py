@@ -25,6 +25,12 @@ async def on_car_price_changed(event: ChatEvent, widget: ManagedCounterAdapter, 
     ctx.dialog_data.update(car_price=car_price)
 
 
+async def on_interest_changed(event: ChatEvent, widget: ManagedCounterAdapter, manager: DialogManager):
+    ctx = manager.current_context()
+    custom_interest = widget.get_value()
+    ctx.dialog_data.update(custom_interest=custom_interest)
+
+
 async def on_enter_price(message: Message, message_input: MessageInput,
                          manager: DialogManager):
     ctx = manager.current_context()
