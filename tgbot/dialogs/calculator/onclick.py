@@ -31,7 +31,7 @@ async def on_click_calculate(callback: CallbackQuery, button: Button, manager: D
 
 
 async def on_click_exit(callback: CallbackQuery, button: Button, manager: DialogManager):
-    manager.show_mode = ShowMode.EDIT
+    manager.show_mode = ShowMode.SEND
     dialog_data = manager.current_context().dialog_data
 
     #
@@ -40,4 +40,4 @@ async def on_click_exit(callback: CallbackQuery, button: Button, manager: Dialog
     #
     # monthly_fee = round((car_price * (100 + actual_interest_rate) / 100 - actual_down_fee) / int(lease_period))
     # dialog_data.update(monthly_fee=format_decimal(round(monthly_fee), delimiter=" ", pre=1))
-    await callback.message.answer(PROPOSAL.format_map(dialog_data))
+    await callback.message.edit_text(PROPOSAL.format_map(dialog_data))
